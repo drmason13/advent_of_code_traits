@@ -1,0 +1,8 @@
+[package]
+name = "boilerplate"
+version = "0.1.0"
+authors = ["drmason13 <drmason13@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+advent_of_code_traits = { version = "0.1.0", path = "../../" }
