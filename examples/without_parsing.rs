@@ -51,5 +51,6 @@ impl Solution<Day3> for AdventOfCode2020 {
 impl ParseInput<Day3> for AdventOfCode2020 {
     type Parsed = ();
 
-    // we can omit the parse_input function and (not) use the default implementation
+    // you actually need this implementation to appease the compiler
+    fn parse_input(_input: &str) {}
 }

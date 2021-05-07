@@ -2,7 +2,7 @@
 
 ## What is this?
 
-This is [`advent_of_code_traits`](https://github.com/drmason13/advent_of_code_traits), a minimal, flexible framework for in implementing solutions to Advent of Code in Rust.
+This is [`advent_of_code_traits`](https://github.com/drmason13/advent_of_code_traits), a minimal, flexible framework for implementing solutions to Advent of Code in Rust.
 
 It takes a trait-based approach using const-generics.
 

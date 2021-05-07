@@ -8,7 +8,7 @@
 //!
 //! ## Usage
 //!
-//! Please see also the [examples](./examples/).
+//! Please see also the [examples](https://github.com/drmason13/advent_of_code_traits/tree/main/examples).
 //!
 //! Implement traits with your solutions to each Day of Advent of Code.
 //!
@@ -40,7 +40,7 @@
 //! }
 //!
 //! # impl ParseInput<Day1> for AdventOfCode2020 {
-//! #     type Parsed = Vec<u32>; // <-- this will be the input to both part1 and part2 for Solution<Day1>
+//! #     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
 //! #
 //! #     fn parse_input(input: &str) -> Self::Parsed {
 //! #         input
@@ -82,7 +82,7 @@
 //! // ..continued from above
 //!
 //! impl ParseInput<Day1> for AdventOfCode2020 {
-//!     type Parsed = Vec<u32>; // <-- this will be the input to both part1 and part2 for Solution<Day1>
+//!     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
 //!
 //!     fn parse_input(input: &str) -> Self::Parsed {
 //!         input
@@ -96,13 +96,13 @@
 //! # assert_eq!(vec![1, 2, 3], <AdventOfCode2020 as ParseInput<Day1>>::parse_input("1\n2\n3"));
 //! ```
 //!
-//! Please refer to the [examples](https://github.com/drmason13/advent_of_code_traits/examples) for more possibilities,
+//! Please refer to the [examples](https://github.com/drmason13/advent_of_code_traits/tree/main/examples) for more possibilities,
 //! including parsing a different type for each Part and opting out of parsing entirely to work directly with the `&str`.
 //!
 //! ### Run from `main.rs`
 //!
 //! Here comes the ugly part.
-//! ```rust,no_run
+//! ```no_run
 //! # use advent_of_code_traits::{days::Day1, ParseInput, Solution};
 //! # pub struct AdventOfCode2020;
 //! #
@@ -121,7 +121,7 @@
 //! #     }
 //! # }
 //! # impl ParseInput<Day1> for AdventOfCode2020 {
-//! #     type Parsed = Vec<u32>; // <-- this will be the input to both part1 and part2 for Solution<Day1>
+//! #     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
 //! #
 //! #     fn parse_input(input: &str) -> Self::Parsed {
 //! #         input
@@ -143,18 +143,13 @@ pub mod days;
 pub const Part1: u32 = 1;
 pub const Part2: u32 = 2;
 
-pub mod consts {
-    pub use super::days::*;
-    pub use super::{Part1, Part2};
-}
-
 /// Implement the [`Solution`] trait for each day of Advent of Code for your struct(s).
 ///
 /// Each day is a unique implementation, implement each on any struct you like.
 ///
-/// ## Example Usage
+/// ## Example
 ///
-/// ```rust
+/// ```
 /// # use advent_of_code_traits::{days::Day1, ParseInput, Solution};
 /// pub struct AdventOfCode2020;
 ///
@@ -165,6 +160,7 @@ pub mod consts {
 ///         // your solution to part1 here...
 /// #       1
 ///     }
+///
 ///     fn part2(input: &Vec<u32>) -> u32 {
 ///         // your solution to part2 here...
 /// #       2
@@ -172,7 +168,7 @@ pub mod consts {
 /// }
 /// #
 /// # impl ParseInput<Day1> for AdventOfCode2020 {
-/// #     type Parsed = Vec<u32>; // <-- this will be the input to both part1 and part2 for Solution<Day1>
+/// #     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
 /// #
 /// #     fn parse_input(input: &str) -> Self::Parsed {
 /// #         input
@@ -185,12 +181,61 @@ pub mod consts {
 pub trait Solution<const Day: u32>:
     ParseEachInput<Day, Part1> + ParseEachInput<Day, Part2>
 {
+    /// The type output by
     type Part1Output: std::fmt::Display;
     type Part2Output: std::fmt::Display;
 
     fn part1(input: &<Self as ParseEachInput<Day, Part1>>::Parsed) -> Self::Part1Output;
     fn part2(input: &<Self as ParseEachInput<Day, Part2>>::Parsed) -> Self::Part2Output;
 
+    /// The default implementation of run will:
+    /// * parse your input for each part
+    /// * call `part1` and `part2` with their parsed inputs.
+    /// * Print a short summary to display the output
+    ///
+    /// You can provide your own implementation of this method to change this deafult behaviour.
+    ///
+    /// ## Example
+    ///
+    /// ```
+    /// # use advent_of_code_traits::{days::Day1, ParseInput, Solution};
+    /// pub struct AdventOfCode2020;
+    ///
+    /// impl Solution<Day1> for AdventOfCode2020 {
+    ///     type Part1Output = u32;
+    ///     type Part2Output = u32;
+    ///     fn part1(input: &Vec<u32>) -> u32 {
+    ///         // your solution to part1 here...
+    /// #       1
+    ///     }
+    ///
+    ///     fn part2(input: &Vec<u32>) -> u32 {
+    ///         // your solution to part2 here...
+    /// #       2
+    ///     }
+    ///
+    ///     fn run(input: &str) {
+    ///         let shared_parsed_input = <Self as ParseInput<Day1>>::parse_input(input);
+    ///
+    ///         let part1_output = Self::part1(&shared_parsed_input);
+    ///         let part2_output = Self::part2(&shared_parsed_input);
+    ///
+    ///         // maybe you prefer a single line output?
+    ///         println!("Day{}: {} - {}", Day1, part1_output, part2_output);
+    ///     }
+    ///
+    /// }
+    /// # impl ParseInput<Day1> for AdventOfCode2020 {
+    /// #     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
+    /// #
+    /// #     fn parse_input(input: &str) -> Self::Parsed {
+    /// #         input
+    /// #             .lines()
+    /// #             .map(|s| s.parse().expect("invalid integer"))
+    /// #             .collect()
+    /// #     }
+    /// # }
+    /// ```
     fn run(input: &str) {
         let part1_parsed_input = <Self as ParseEachInput<Day, Part1>>::parse_input(input);
         let part2_parsed_input = <Self as ParseEachInput<Day, Part2>>::parse_input(input);
@@ -209,9 +254,11 @@ pub trait Solution<const Day: u32>:
     }
 }
 
-/// Implement [`ParseEachInput`] if you need a different input for each Part of a Day.
+/// Implement this trait if you need a different input for each part of a day.
 ///
-/// This trait is generic over both Day and Part.
+/// This trait is generic over both day and part.
+///
+/// See also [`ParseInput`] which you should prefer implementing to use the *same* input type for each part of a day.
 ///
 /// ## Example Usage
 ///
@@ -250,14 +297,18 @@ pub trait Solution<const Day: u32>:
 /// assert_eq!(Some(&2), part2_input.values().next());
 /// ```
 pub trait ParseEachInput<const Day: u32, const Part: u32> {
+    /// The type that you want your [`Solution`] code to receive for a particular part of a day.
     type Parsed;
 
+    /// See [`ParseInput::parse_input`]
     fn parse_input(input: &str) -> Self::Parsed;
 }
 
-/// Implement [`ParseInput`] to parse the `&str` that is the Day's input to get a type of your choosing to work with.
+/// Implement this trait to parse the the day's input into a type.
 ///
-/// This trait is generic over Day.
+/// This trait is generic over day.
+///
+/// See [`ParseEachInput`] if you want to use a *different* input type for each part of a day.
 ///
 /// ## Example Usage
 ///
@@ -283,11 +334,12 @@ pub trait ParseEachInput<const Day: u32, const Part: u32> {
 /// assert_eq!(part1_input, part2_input);
 /// ```
 pub trait ParseInput<const Day: u32> {
+    /// The type that you want your [`Solution`] code to receive
     type Parsed;
 
-    fn parse_input(_input: &str) -> Self::Parsed {
-        unimplemented!()
-    }
+    /// This function receives the entire input file as a &str slice
+    /// and must return a [`Self::Parsed`]
+    fn parse_input(input: &str) -> Self::Parsed;
 }
 
 impl<T, const Day: u32> ParseEachInput<Day, Part1> for T
