@@ -1,8 +1,14 @@
 # Contributing
 
-This project accepts Issues and Pull Requests on [GitHub](https://github.com/drmason13/advent_of_code_traits).
+advent_of_code_traits welcomes contributions from everyone. This document
+explains how you can contribute and how to get started.
 
-If it is your first time contributing to a rust project then welcome! This could be a good place to contribute. It's a small, low-pressure library that is used for fun.
+If you have any questions about contributing or need help with
+anything, feel free to ask questions on issues.
+
+This is a friendly place to contribute. It's a small, low-pressure library that is used for fun, enjoy yourself.
+
+All contributors are expected to follow the [Rust Code of Conduct].
 
 Please follow the following steps to help keep things running smoothly.
 
@@ -24,15 +30,28 @@ git commit -m "Add this awesome new feature"
 
 ## Thank you for contributing!
 
+[Rust Code of Conduct]: https://www.rust-lang.org/policies/code-of-conduct
+
 ## Looking for ideas how to contribute?
 
-Browse through the issues marked [`help-wanted`]() and if something speaks to you, comment on the issue to let me (and anyone else wanting to contribute) know.
+Issues labelled [`good-first-issue`]
+are an excellent place to start.
 
-I think it would be cool for people to collaborate with me and each other on issues, especially things that are more design/architecture orientated.
+Issues labelled [`help-wanted`] require extra attention from you, potential consumers of this library! They particularly welcome discussion, so throw in a suggestion or a comment. We want to hear your ideas. They welcome pull requests too of course, but I might keep the issue open to get feedback on your solution. Let's iterate :)
 
-If you're struggling with an issue that you've claimed, don't worry about it.
+Here's an [example issue]
 
-You can comment to say something like
+Once you find an issue you want to work on, comment on the issue to claim it, this lets me (and anyone else wanting to contribute) know that someone is working on it.
+
+I think it would be cool for people to collaborate on issues, especially things that are more design/architecture orientated. So if an issue is claimed, feel free to comment still!
+
+If you're struggling with an issue that you've claimed,
+don't worry about it.
+You can comment to say something like:
 > "hmm, this is harder than I thought. If someone else wants to take a shot, be my guest"
 
 Or ask a question and hopefully someone will have an idea that helps.
+
+[example issue]: https://github.com/drmason13/advent_of_code_traits/issues/3
+[`help-wanted`]: https://github.com/drmason13/advent_of_code_traits/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
+[`good-first-issue`]: https://github.com/drmason13/advent_of_code_traits/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
