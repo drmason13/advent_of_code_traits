@@ -112,6 +112,8 @@ Thank you Gobanos! :)
 
 ## Contributing
 
+Contributions are welcome, please see [CONTRIBUTING](./CONTRIBUTING.md)
+
 This currently lacks support for **Error Handling** in the trait definitions.
 
 I'd greatly appreciate contributions of ideas and/or code here, it has me a bit stumped but I'm sure it can be done!
