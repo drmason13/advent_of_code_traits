@@ -247,7 +247,7 @@ pub trait Solution<const Day: u32>:
         println!(
             "Day {0}, Part 1\n\
             {1}\n\n\
-            Day {0}, Part 1\n\
+            Day {0}, Part 2\n\
             {2}",
             Day, part1_output, part2_output
         );
