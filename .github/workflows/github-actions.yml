@@ -20,15 +20,15 @@ jobs:
         toolchain: ${{ matrix.rust }}
         profile: minimal
         override: true
-    - name: Run CI
+    - name: Download cargo-make
       uses: davidB/rust-cargo-make@v1
+    - name: Run CI
       if: matrix.rust != 'nightly'
       uses: actions-rs/cargo@v1
       with:
         command: make
         args: ci-flow
     - name: Run CI (Allow Failures on nightly)
-      uses: davidB/rust-cargo-make@v1
       if: matrix.rust == 'nightly'
       continue-on-error: true
       uses: actions-rs/cargo@v1
