@@ -3,6 +3,13 @@ name = "advent_of_code_traits"
 version = "0.1.0"
 authors = ["drmason13 <drmason13@users.noreply.github.com>"]
 edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Minimal, flexible framework for implementing solutions to Advent of Code in Rusts"
+keywords = ["advent-of-code"]
+categories = ["rust-patterns"]
+
+[badges]
+maintenance = { status= "actively-developed" }
 
 [dependencies]
 

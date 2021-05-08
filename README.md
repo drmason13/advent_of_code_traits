@@ -1,14 +1,16 @@
+[![Build Status][github-actions-badge]][github-actions] [![Latest Version][crates-io-badge]][crates-io]
+
 # `impl Solution<Day25> for AdventOfCode2021`
 
 ## What is this?
 
-This is [`advent_of_code_traits`](https://github.com/drmason13/advent_of_code_traits), a minimal, flexible framework for implementing solutions to Advent of Code in Rust.
+This is [advent_of_code_traits][github], a minimal, flexible framework for implementing solutions to [Advent of Code] in Rust.
 
 It takes a trait-based approach using const-generics.
 
 ## Usage
 
-Please see also the [examples](./examples/).
+Please see also the [examples].
 
 Implement traits with your solutions to each Day of Advent of Code.
 
@@ -77,7 +79,7 @@ let input = std::fs::read_to_string("./input/2020/day1.txt").expect("failed to r
 <AdventOfCode2020 as Solution<Day1>>::run(input);
 ```
 This reads input from a file and passes it to your struct.
-[Fully Qualified Syntax](https://doc.rust-lang.org/book/ch19-03-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name)
+[Fully Qualified Syntax]
 is required in order to disambiguate which day's Solution we are running.
 
 ## How does this use const generics?
@@ -100,27 +102,21 @@ mod days {
 
 ## Prior Art
 
-I am very grateful for @gobanos' [`cargo-aoc`](https://github.com/gobanos/cargo-aoc) which was a huge inspiration while creating this.
+I am very grateful for @gobanos' [cargo-aoc] which was a huge inspiration while creating this.
 
-This crate is no match for the convenience or ease of use of `cargo-aoc`.
+This crate is no match for the convenience or ease of use of [cargo-aoc].
 
-Having said that, I hope it brings something new to the table (faster compile times perhaps?) and that others enjoy using this half as much as I enjoyed using `cargo-aoc`.
+Having said that, I hope it brings something new to the table (faster compile times perhaps?) and that others enjoy using this half as much as I enjoyed using [cargo-aoc].
 
-I have used the cargo-aoc plugin for all of my Advent of Codes in Rust before 2021, and it is a brilliant, crazy use of procedural macros to make our lives easier. 
+I have used [cargo-aoc] for all of my Advent of Codes in Rust before 2021, and it is a brilliant, crazy use of procedural macros.
 
 Thank you Gobanos! :)
 
 ## Contributing
 
-Contributions are welcome, please see [CONTRIBUTING](./CONTRIBUTING.md)
+Contributions are welcome, please see [CONTRIBUTING.md]
 
-This currently lacks support for **Error Handling** in the trait definitions.
-
-I'd greatly appreciate contributions of ideas and/or code here, it has me a bit stumped but I'm sure it can be done!
-
-I'm very reluctant to release a 1.0 without big improvements here.
-
-Please also see [ARCHITECTURE.md](./ARCHITECTURE.md) for a guided tour of sorts of the code base.
+Please also see [ARCHITECTURE.md] for a guided tour of sorts of the code base.
 
 <br>
 
@@ -138,3 +134,14 @@ Unless you explicitly state otherwise, any contribution intentionally submitted
 for inclusion in advent_of_code_traits by you, as defined in the Apache-2.0 license, shall be
 dual licensed as above, without any additional terms or conditions.
 </sub>
+
+[crates-io]: https://crates.io/crates/advent_of_code_traits
+[crates-io-badge]: https://img.shields.io/crates/v/advent_of_code_traits
+
+[github]: https://github.com/drmason13/advent_of_code_traits
+[github-actions]: https://github.com/drmason13/advent_of_code_traits/actions
+[github-actions-badge]: https://github.com/drmason13/advent_of_code_traits/actions/workflows/github-actions.yml/badge.svg
+
+[Advent of Code]: https://adventofcode.com
+[Fully Qualified Syntax]: https://doc.rust-lang.org/book/ch19-03-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name
+[cargo-aoc]: https://github.com/gobanos/cargo-aoc

@@ -1,6 +1,6 @@
 # Contributing
 
-advent_of_code_traits welcomes contributions from everyone. This document
+[advent_of_code_traits][crates-io] welcomes contributions from everyone. This document
 explains how you can contribute and how to get started.
 
 If you have any questions about contributing or need help with
@@ -34,10 +34,16 @@ git commit -m "Add this awesome new feature"
 
 ## Looking for ideas how to contribute?
 
-Issues labelled [`good-first-issue`]
+[advent_of_code_traits][crates-io] currently lacks support for **Error Handling** in the [trait definitions](src/lib.rs).
+
+I'd greatly appreciate contributions of ideas and/or code here, it has me a bit stumped but I'm sure it can be done!
+
+I'm very reluctant to release a 1.0 without big improvements here.
+
+Issues labelled [good-first-issue]
 are an excellent place to start.
 
-Issues labelled [`help-wanted`] require extra attention from you, potential consumers of this library! They particularly welcome discussion, so throw in a suggestion or a comment. We want to hear your ideas. They welcome pull requests too of course, but I might keep the issue open to get feedback on your solution. Let's iterate :)
+Issues labelled [help-wanted] require extra attention from you, potential consumers of this library! They particularly welcome discussion, so throw in a suggestion or a comment. We want to hear your ideas. They welcome pull requests too of course, but I might keep the issue open to get feedback on your solution. Let's iterate :)
 
 Here's an [example issue]
 
@@ -50,8 +56,10 @@ don't worry about it.
 You can comment to say something like:
 > "hmm, this is harder than I thought. If someone else wants to take a shot, be my guest"
 
-Or ask a question and hopefully someone will have an idea that helps.
+You are always welcome ask a question and hopefully someone will have an idea that helps.
 
 [example issue]: https://github.com/drmason13/advent_of_code_traits/issues/3
-[`help-wanted`]: https://github.com/drmason13/advent_of_code_traits/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
-[`good-first-issue`]: https://github.com/drmason13/advent_of_code_traits/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
+[help-wanted]: https://github.com/drmason13/advent_of_code_traits/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22
+[good-first-issue]: https://github.com/drmason13/advent_of_code_traits/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22
+
+[crates-io]: https://crates.io/crates/advent_of_code_traits

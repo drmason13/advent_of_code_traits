@@ -140,7 +140,11 @@
 #![allow(non_upper_case_globals)]
 
 pub mod days;
+/// Constant for part1 of each day.
+/// See also [`ParseEachInput`].
 pub const Part1: u32 = 1;
+/// Constant for part2 of each day.
+/// See also [`ParseEachInput`].
 pub const Part2: u32 = 2;
 
 /// Implement the [`Solution`] trait for each day of Advent of Code for your struct(s).
@@ -181,8 +185,11 @@ pub const Part2: u32 = 2;
 pub trait Solution<const Day: u32>:
     ParseEachInput<Day, Part1> + ParseEachInput<Day, Part2>
 {
-    /// The type output by
+    /// The type output by [`Solution::part1`]
+    /// This must implement [`Display`][::std::fmt::Display] so that we can print it
     type Part1Output: std::fmt::Display;
+    /// The type output by [`Solution::part2`]
+    /// This must implement [`Display`][::std::fmt::Display] so that we can print it
     type Part2Output: std::fmt::Display;
 
     fn part1(input: &<Self as ParseEachInput<Day, Part1>>::Parsed) -> Self::Part1Output;
