@@ -8,9 +8,15 @@ This is [advent_of_code_traits][github], a minimal, flexible framework for imple
 
 It takes a trait-based approach using const-generics.
 
+## Experimental
+
+This is already serviceable, but there will be frequent breaking changes as the traits are improved and refined.
+The plan is to release a stable version in time for December 2021.
+
+
 ## Usage
 
-Please see also the [examples].
+Please see also the [examples](./examples/).
 
 Implement traits with your solutions to each Day of Advent of Code.
 
@@ -87,9 +93,9 @@ is required in order to disambiguate which day's Solution we are running.
 Because the `Solution` and `ParseInput` traits are generic over `const Day: u32` you are free to implement them many times for the same struct.
 The compiler will only yell at you if you implement them for the same Day twice (as it should!).
 
-`Day1` is used in the examples (because it looks awesome in my humble opinion).
+`Day1` is used in the examples (because it looks awesome in my humble opinion). It is simply `1_u32`.
 
-It is literally just `1_u32`. `advent_of_code_traits::days` looks like this:
+`advent_of_code_traits::days` looks like this:
 
 ```
 mod days {
@@ -114,9 +120,9 @@ Thank you Gobanos! :)
 
 ## Contributing
 
-Contributions are welcome, please see [CONTRIBUTING.md]
+Contributions are welcome, please see [CONTRIBUTING](./CONTRIBUTING.md)
 
-Please also see [ARCHITECTURE.md] for a guided tour of sorts of the code base.
+Please also see [ARCHITECTURE](./ARCHITECTURE.md) for a guided tour of sorts of the code base.
 
 <br>
 
