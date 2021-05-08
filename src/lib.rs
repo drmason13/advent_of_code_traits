@@ -139,6 +139,8 @@
 
 #![allow(non_upper_case_globals)]
 
+use std::fmt::Display;
+
 pub mod days;
 /// Constant for part1 of each day.
 /// See also [`ParseEachInput`].
@@ -187,10 +189,10 @@ pub trait Solution<const Day: u32>:
 {
     /// The type output by [`Solution::part1`]
     /// This must implement [`Display`][::std::fmt::Display] so that we can print it
-    type Part1Output: std::fmt::Display;
+    type Part1Output: Display;
     /// The type output by [`Solution::part2`]
     /// This must implement [`Display`][::std::fmt::Display] so that we can print it
-    type Part2Output: std::fmt::Display;
+    type Part2Output: Display;
 
     fn part1(input: &<Self as ParseEachInput<Day, Part1>>::Parsed) -> Self::Part1Output;
     fn part2(input: &<Self as ParseEachInput<Day, Part2>>::Parsed) -> Self::Part2Output;
@@ -198,7 +200,7 @@ pub trait Solution<const Day: u32>:
     /// The default implementation of run will:
     /// * parse your input for each part
     /// * call `part1` and `part2` with their parsed inputs.
-    /// * Print a short summary to display the output
+    /// * Send the results of both parts to [`Solution::report`], which by default will display a short summary
     ///
     /// You can provide your own implementation of this method to change this deafult behaviour.
     ///
@@ -227,8 +229,7 @@ pub trait Solution<const Day: u32>:
     ///         let part1_output = Self::part1(&shared_parsed_input);
     ///         let part2_output = Self::part2(&shared_parsed_input);
     ///
-    ///         // maybe you prefer a single line output?
-    ///         println!("Day{}: {} - {}", Day1, part1_output, part2_output);
+    ///         Self::report(part1_output, part2_output)
     ///     }
     ///
     /// }
@@ -250,7 +251,13 @@ pub trait Solution<const Day: u32>:
         let part1_output = Self::part1(&part1_parsed_input);
         let part2_output = Self::part2(&part2_parsed_input);
 
-        // TODO: extract printing behaviour into a report or summary method with a default implementation
+        Self::report(part1_output, part2_output);
+    }
+
+    /// Report the results of running both parts of this solution
+    ///
+    /// The default implementation prints a short summary to stdout
+    fn report(part1_output: impl Display, part2_output: impl Display) {
         println!(
             "Day {0}, Part 1\n\
             {1}\n\n\
