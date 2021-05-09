@@ -13,6 +13,7 @@ It takes a trait-based approach using const-generics.
 This is already serviceable, but there will be frequent breaking changes as the traits are improved and refined.
 The plan is to release a stable version in time for December 2021.
 
+See the [Changelog](./CHANGELOG.md) for a current view of progress.
 
 ## Usage
 
