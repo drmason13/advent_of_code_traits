@@ -6,3 +6,4 @@ edition = "2018"
 
 [dependencies]
 advent_of_code_traits = { version = "0.1.0", path = "../../" }
+anyhow = "1.0.40"

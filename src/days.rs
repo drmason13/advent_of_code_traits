@@ -15,22 +15,15 @@
 //!
 //! You don't have to use these consts at all if you don't want to
 //! ```no_run
-//! # use advent_of_code_traits::{ParseInput, Solution};
+//! # use advent_of_code_traits::{Part1, Part2, Solution};
 //! # pub struct AdventOfCode2020;
-//! impl Solution<2> for AdventOfCode2020 {
-//!     # type Part1Output = u32;
-//!     # type Part2Output = u32;
+//! impl Solution<2, Part1> for AdventOfCode2020 {
 //!     // this works the same as `Day2`
-//!     # fn part1(input: &()) -> u32 {1}
-//!     # fn part2(input: &()) -> u32 {2}
+//!     # type Input = u32;
+//!     # type Output = u32;
+//!     # fn parse(&self, input: &str) -> anyhow::Result<u32> {Ok(1)}
+//!     # fn solve(&self, input: &u32) -> anyhow::Result<u32> {Ok(2)}
 //! }
-//! # impl ParseInput<2> for AdventOfCode2020 {
-//! #     type Parsed = ();
-//! #
-//! #     fn parse_input(input: &str) -> Self::Parsed {
-//! #         todo!()
-//! #     }
-//! # }
 //! ```
 
 include!(concat!(env!("OUT_DIR"), "/const_days.rs"));
