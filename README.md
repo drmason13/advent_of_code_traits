@@ -36,7 +36,7 @@ impl Solution<Day1, Part1> for AdventOfCode2020 {
     type Input = Vec<u32>;
     type Output = u32;
 
-    fn parse(input: &str) -> anyhow::Result<u32> {
+    fn parse(&self, input: &str) -> anyhow::Result<u32> {
         // your parsing of part1 input here...
         input
             .lines()
@@ -44,7 +44,7 @@ impl Solution<Day1, Part1> for AdventOfCode2020 {
             .collect()
     }
     
-    fn solve(input: &Vec<u32>) -> anyhow::Result<u32> {
+    fn solve(&self, input: &Vec<u32>) -> anyhow::Result<u32> {
         // your solution to part1 here...
         todo!()
     }
@@ -55,8 +55,9 @@ impl Solution<Day1, Part1> for AdventOfCode2020 {
 
 Here comes the ugly part.
 ```rust
+let aoc = AdventOfCode2020;
 let input = std::fs::read_to_string("./input/2020/day1.txt").expect("failed to read input");
-<AdventOfCode2020 as Solution<Day1>>::run(input);
+<AdventOfCode2020 as Solution<Day1, Part1>>::run(&aoc, &input);
 ```
 This reads input from a file and passes it to your struct.
 [Fully Qualified Syntax]
