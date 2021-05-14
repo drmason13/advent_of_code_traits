@@ -1,18 +1,12 @@
-use advent_of_code_traits::{days::*, Solution};
+use advent_of_code_traits::{days::*, Part1, Part2, Solution};
+use anyhow::anyhow;
 
 pub struct AdventOfCode2020;
+const SOLUTION: AdventOfCode2020 = AdventOfCode2020;
 
 mod day1;
 
-fn call_solution_for_day(day: u32) -> for<'r> fn(&'r str) {
-    match day {
-        1 => <AdventOfCode2020 as Solution<Day1>>::run,
-        // 4 => <AdventOfCode2020 as Solution<Day4>>::run, // fails to compile (until you implement the solution to Day4)
-        _ => unimplemented!("no solution available for that day"),
-    }
-}
-
-fn main() {
+fn main() -> anyhow::Result<()> {
     let day = std::env::args()
         .skip(1)
         .next()
@@ -24,7 +18,19 @@ fn main() {
 
     let input = std::fs::read_to_string(&find_input(day)).expect("no input available for that day");
 
-    call_solution_for_day(day)(&input)
+    match day {
+        1 => {
+            Solution::<Day1, Part1>::run(&SOLUTION, &input)?;
+            Solution::<Day1, Part2>::run(&SOLUTION, &input)?;
+        }
+        _ => {
+            return Err(anyhow!(format!(
+                "Day {} is not yet implemented, please choose a different day.",
+                day
+            )))
+        }
+    }
+    Ok(())
 }
 
 // you can mostly ignore this, this makes the example run more reliably from different directories

@@ -11,10 +11,10 @@ All the following examples can be run using cargo: `cargo run --example <example
 
 An example main function to run your solutions from the command line.
 
-### [`parse_each_input`](parse_each_input.rs)
-`cargo run --example parse_each_input`
+### [`parse_input_once`](parse_input_once.rs)
+`cargo run --example parse_input_once`
 
-Use `ParseEachInput` to parse a different type for each part of a day.
+Avoid defining the same parse function twice when you can use the same type for both parts of a day.
 
 ### [`without_parsing`](without_parsing.rs)
 `cargo run --example without_parsing`

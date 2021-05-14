@@ -12,6 +12,6 @@ fn main() {
     println!("cargo:rerun-if-changed=build.rs");
 }
 
-fn day(n: u32) -> String {
-    format!("pub const Day{0}: u32 = {0};", n)
+fn day(n: u8) -> String {
+    format!("pub const Day{0}: u8 = {0};", n)
 }

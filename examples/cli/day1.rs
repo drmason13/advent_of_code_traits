@@ -1,27 +1,32 @@
 #![allow(unused_variables)]
 use crate::AdventOfCode2020;
-use advent_of_code_traits::{days::Day1, ParseInput, Solution};
+use advent_of_code_traits::{days::Day1, Part1, Part2, Solution};
 
-impl ParseInput<Day1> for AdventOfCode2020 {
-    type Parsed = Vec<u32>;
+impl Solution<Day1, Part1> for AdventOfCode2020 {
+    type Input = Vec<u32>;
+    type Output = usize;
 
-    fn parse_input(input: &str) -> Self::Parsed {
-        vec![1, 2, 3]
+    fn parse(&self, input: &str) -> anyhow::Result<Self::Input> {
+        Ok(vec![1, 2, 3])
+    }
+
+    fn solve(&self, input: &Vec<u32>) -> anyhow::Result<Self::Output> {
+        Ok(input.len())
     }
 }
 
-impl Solution<Day1> for AdventOfCode2020 {
-    type Part1Output = usize;
-    type Part2Output = String;
+impl Solution<Day1, Part2> for AdventOfCode2020 {
+    type Input = Vec<u32>;
+    type Output = String;
 
-    fn part1(input: &Vec<u32>) -> Self::Part1Output {
-        input.len()
+    fn parse(&self, input: &str) -> anyhow::Result<Self::Input> {
+        Ok(vec![1, 2, 3])
     }
 
-    fn part2(input: &Vec<u32>) -> Self::Part2Output {
-        input.iter().fold(String::new(), |mut acc, n| {
+    fn solve(&self, input: &Vec<u32>) -> anyhow::Result<Self::Output> {
+        Ok(input.iter().fold(String::new(), |mut acc, n| {
             acc.push_str(&n.to_string());
             acc
-        })
+        }))
     }
 }

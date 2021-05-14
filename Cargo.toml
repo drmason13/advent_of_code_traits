@@ -14,11 +14,12 @@ categories = ["rust-patterns"]
 maintenance = { status= "actively-developed" }
 
 [dependencies]
+anyhow = "1.0.40"
 
 [[example]]
 name = "without_parsing"
 crate-type = ["staticlib"]
 
 [[example]]
-name = "parse_each_input"
+name = "parse_input_once"
 crate-type = ["staticlib"]
