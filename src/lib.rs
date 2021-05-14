@@ -21,8 +21,7 @@
 //! ### Implement [`Solution`] for your struct.
 //!
 //! ```
-//! # use advent_of_code_traits::{days::Day1, Part1, Part2, Solution};
-//! use anyhow;
+//! # use advent_of_code_traits::{days::*, Part1, Part2, Solution};
 //! pub struct AdventOfCode2020;
 //!
 //! impl Solution<Day1, Part1> for AdventOfCode2020 {

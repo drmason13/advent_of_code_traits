@@ -20,14 +20,11 @@ Please see also the [examples](./examples/).
 
 Implement traits with your solutions to each Day of Advent of Code.
 
-### Import the traits:
+### Import the `Solution` trait:
 
-```rust
-use advent_of_code_traits::{ParseInput, Solution};
-```
 and optionally, consts:
 ```rust
-use advent_of_code_traits::{days::*, Part1, Part2};
+use advent_of_code_traits::{days::*, Part1, Part2, Solution};
 ```
 
 ### Implement `Solution` for your struct.
@@ -35,47 +32,24 @@ use advent_of_code_traits::{days::*, Part1, Part2};
 ```rust
 pub struct AdventOfCode2020;
 
-impl Solution<Day1> for AdventOfCode2020 {
-    type Part1Output = u32;
-    type Part2Output = u32;
+impl Solution<Day1, Part1> for AdventOfCode2020 {
+    type Input = Vec<u32>;
+    type Output = u32;
 
-    fn part1(input: &Vec<u32>) -> u32 {
-        // your solution to part1 here...
-        todo!()
-    }
-    
-    fn part2(input: &Vec<u32>) -> u32 {
-        // your solution to part2 here...
-        todo!()
-    }
-}
-```
-
-"But where does `Vec<u32>` come from?", you ask.
-
-Well spotted, eagle-eyed reader!
-
-That comes from your implementation of `ParseInput`.
-
-### Implement `ParseInput` for your struct
-
-```rust
-// ..continued from above
-
-impl ParseInput<Day1> for AdventOfCode2020 {
-    type Parsed = Vec<u32>; // <-- this will be the input to both part1 and part2 for Solution<Day1>
-
-    fn parse_input(input: &str) -> Self::Parsed {
+    fn parse(input: &str) -> anyhow::Result<u32> {
+        // your parsing of part1 input here...
         input
             .lines()
             .map(|s| s.parse().expect("invalid integer"))
             .collect()
     }
+    
+    fn solve(input: &Vec<u32>) -> anyhow::Result<u32> {
+        // your solution to part1 here...
+        todo!()
+    }
 }
 ```
-
-Please refer to the examples for more possibilities,
-including parsing a different type for each Part and opting out of parsing entirely to work directly with the `&str`.
 
 ### Run from main.rs
 
@@ -88,14 +62,17 @@ This reads input from a file and passes it to your struct.
 [Fully Qualified Syntax]
 is required in order to disambiguate which day's Solution we are running.
 
+Please refer to the [examples](./examples/) for more possibilities,
+including parsing a different type for each Part and opting out of parsing entirely to work directly with the `&str`.
+
 ## How does this use const generics?
 
-Because the `Solution` and `ParseInput` traits are generic over `const Day: u32` you are free to implement them many times for the same struct.
-The compiler will only yell at you if you implement them for the same Day twice (as it should!).
+Because the `Solution` trait is generic over `const Day: u32` and `const Part: u32` you are free to implement them many times for the same struct.
+The compiler will only yell at you if you implement them for the same Day and Part twice (as it should!).
 
-`Day1` is used in the examples (because it looks awesome in my humble opinion). It is simply `1_u32`.
+`Day1` and `Part1` are used in the examples (because it looks awesome in my humble opinion). They are simply `1_u32`.
 
-`advent_of_code_traits::days` looks like this:
+For example, `advent_of_code_traits::days` looks like this:
 
 ```
 mod days {
