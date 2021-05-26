@@ -368,3 +368,44 @@ where
         <Self as ParseInput<Day>>::parse_input(input)
     }
 }
+
+/// Conveniently running individual days
+///
+/// ## Example Usage
+///
+/// ```
+/// use advent_of_code_traits::{days::Day1, Solution, ParseInput, run};
+///
+/// pub struct AdventOfCode2020;
+///
+/// impl ParseInput<Day1> for AdventOfCode2020 {
+///     type Parsed = Vec<u32>;
+///
+///     fn parse_input(input: &str) -> Self::Parsed {
+///         vec![1, 2, 3]
+///     }
+/// }
+///
+/// impl Solution<Day1> for AdventOfCode2020 {
+///     type Part1Output = usize;
+///     type Part2Output = String;
+///
+///     fn part1(input: &Vec<u32>) -> Self::Part1Output {
+///         input.len()
+///     }
+///
+///     fn part2(input: &Vec<u32>) -> Self::Part2Output {
+///         String::from("...")
+///     }
+/// }
+///
+/// let input = "aoc input strings";
+///
+/// run!(AdventOfCode2020, Day1, &input)
+/// ```
+#[macro_export]
+macro_rules! run {
+    ($aoc: ty, $day: ty, $input: expr) => {
+        <$aoc as Solution<$day>>::run($input)
+    };
+}
