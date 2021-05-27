@@ -125,6 +125,10 @@ Contributions are welcome, please see [CONTRIBUTING](./CONTRIBUTING.md)
 
 Please also see [ARCHITECTURE](./ARCHITECTURE.md) for a guided tour of sorts of the code base.
 
+### Thank you so much to everyone who has helped this project so far:
+
+* [hui.liu hulufei](https://github.com/hulufei)
+
 <br>
 
 #### License
