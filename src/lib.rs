@@ -25,22 +25,22 @@
 //! pub struct AdventOfCode2020;
 //!
 //! impl Solution<Day1> for AdventOfCode2020 {
-//!     type Part1Output = u32;
-//!     type Part2Output = u32;
+//!     type PartOneOutput = u32;
+//!     type PartTwoOutput = u32;
 //!
-//!     fn part1(input: &Vec<u32>) -> u32 {
-//!         // your solution to part1 here...
+//!     fn PartOne(input: &Vec<u32>) -> u32 {
+//!         // your solution to PartOne here...
 //! #       1
 //!     }
 //!
-//!     fn part2(input: &Vec<u32>) -> u32 {
-//!         // your solution to part2 here...
+//!     fn PartTwo(input: &Vec<u32>) -> u32 {
+//!         // your solution to PartTwo here...
 //! #       2
 //!     }
 //! }
 //!
 //! # impl ParseInput<Day1> for AdventOfCode2020 {
-//! #     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
+//! #     type Parsed = Vec<u32>; // <-- the input to both PartOne and PartTwo for Solution<Day1>
 //! #
 //! #     fn parse_input(input: &str) -> Self::Parsed {
 //! #         input
@@ -66,23 +66,23 @@
 //! # pub struct AdventOfCode2020;
 //! #
 //! # impl Solution<Day1> for AdventOfCode2020 {
-//! #     type Part1Output = u32;
-//! #     type Part2Output = u32;
+//! #     type PartOneOutput = u32;
+//! #     type PartTwoOutput = u32;
 //! #
-//! #     fn part1(input: &Vec<u32>) -> u32 {
-//! #         // your solution to part1 here...
+//! #     fn PartOne(input: &Vec<u32>) -> u32 {
+//! #         // your solution to PartOne here...
 //! #         1
 //! #     }
 //! #
-//! #     fn part2(input: &Vec<u32>) -> u32 {
-//! #         // your solution to part2 here...
+//! #     fn PartTwo(input: &Vec<u32>) -> u32 {
+//! #         // your solution to PartTwo here...
 //! #         2
 //! #     }
 //! # }
 //! // ..continued from above
 //!
 //! impl ParseInput<Day1> for AdventOfCode2020 {
-//!     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
+//!     type Parsed = Vec<u32>; // <-- the input to both PartOne and PartTwo for Solution<Day1>
 //!
 //!     fn parse_input(input: &str) -> Self::Parsed {
 //!         input
@@ -91,8 +91,8 @@
 //!             .collect()
 //!     }
 //! }
-//! # assert_eq!(1, <AdventOfCode2020 as Solution<Day1>>::part1(&vec![1, 2, 3]));
-//! # assert_eq!(2, <AdventOfCode2020 as Solution<Day1>>::part2(&vec![1, 2, 3]));
+//! # assert_eq!(1, <AdventOfCode2020 as Solution<Day1>>::PartOne(&vec![1, 2, 3]));
+//! # assert_eq!(2, <AdventOfCode2020 as Solution<Day1>>::PartTwo(&vec![1, 2, 3]));
 //! # assert_eq!(vec![1, 2, 3], <AdventOfCode2020 as ParseInput<Day1>>::parse_input("1\n2\n3"));
 //! ```
 //!
@@ -107,21 +107,21 @@
 //! # pub struct AdventOfCode2020;
 //! #
 //! # impl Solution<Day1> for AdventOfCode2020 {
-//! #     type Part1Output = u32;
-//! #     type Part2Output = u32;
+//! #     type PartOneOutput = u32;
+//! #     type PartTwoOutput = u32;
 //! #
-//! #     fn part1(input: &Vec<u32>) -> u32 {
-//! #         // your solution to part1 here...
+//! #     fn PartOne(input: &Vec<u32>) -> u32 {
+//! #         // your solution to PartOne here...
 //! #         1
 //! #     }
 //! #
-//! #     fn part2(input: &Vec<u32>) -> u32 {
-//! #         // your solution to part2 here...
+//! #     fn PartTwo(input: &Vec<u32>) -> u32 {
+//! #         // your solution to PartTwo here...
 //! #         2
 //! #     }
 //! # }
 //! # impl ParseInput<Day1> for AdventOfCode2020 {
-//! #     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
+//! #     type Parsed = Vec<u32>; // <-- the input to both PartOne and PartTwo for Solution<Day1>
 //! #
 //! #     fn parse_input(input: &str) -> Self::Parsed {
 //! #         input
@@ -139,65 +139,109 @@
 
 #![allow(non_upper_case_globals)]
 
-pub mod days;
-/// Constant for part1 of each day.
-/// See also [`ParseEachInput`].
-pub const Part1: u32 = 1;
-/// Constant for part2 of each day.
-/// See also [`ParseEachInput`].
-pub const Part2: u32 = 2;
+use std::fmt::Display;
 
-/// Implement the [`Solution`] trait for each day of Advent of Code for your struct(s).
+pub mod days;
+/// Constant for PartOne of each day.
+/// See also [`ParseEachInput`].
+pub const PartOne: u32 = 1;
+/// Constant for PartTwo of each day.
+/// See also [`ParseEachInput`].
+pub const PartTwo: u32 = 2;
+
+/// Implement the [`PartOne`] and [`PartTwo`] traits for each day of Advent of Code.
 ///
-/// Each day is a unique implementation, implement each on any struct you like.
+/// Each day is a unique implementation, it is recommended to use a separate struct for each day's implementation of PartOne, PartTwo for ergonomics at the call site.
 ///
 /// ## Example
 ///
 /// ```
-/// # use advent_of_code_traits::{days::Day1, ParseInput, Solution};
-/// pub struct AdventOfCode2020;
+/// use advent_of_code_traits::{PartOne, PartTwo, DAY1};
 ///
-/// impl Solution<Day1> for AdventOfCode2020 {
-///     type Part1Output = u32;
-///     type Part2Output = u32;
-///     fn part1(input: &Vec<u32>) -> u32 {
-///         // your solution to part1 here...
+/// pub mod AdventOfCode2022 {
+///     pub struct Day1;
+/// }
+///
+/// impl PartOne<'a, DAY1> for AdventOfCode2022::Day1 {
+///    type Input;
+///    type Output: Display;
+///    
+///     fn parse_input(&'a self, input: &'a str) -> Self::Input;
+///         // your parsing of input for PartOne here...
+/// #        input
+/// #            .lines()
+/// #            .map(|s| s.parse().expect("invalid integer"))
+/// #            .collect()
+///     }
+///
+///     fn solve(input: &Vec<u32>) -> u32 {
+///         // your solution to PartOne here...
 /// #       1
 ///     }
 ///
-///     fn part2(input: &Vec<u32>) -> u32 {
-///         // your solution to part2 here...
+/// impl PartTwo<'a, DAY1> for AdventOfCode2022::Day1 {
+///    type Input;
+///    type Output: Display;
+///    
+///     fn parse_input(&'a self, input: &'a str) -> Self::Input;
+///         // your parsing of input for PartTwo here...
+/// #        input
+/// #            .lines()
+/// #            .map(|s| s.parse().expect("invalid integer"))
+/// #            .collect()
+///     }
+///
+///     fn solve(input: &Vec<u32>) -> u32 {
+///         // your solution to PartTwo here...
 /// #       2
 ///     }
 /// }
-/// #
-/// # impl ParseInput<Day1> for AdventOfCode2020 {
-/// #     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
-/// #
-/// #     fn parse_input(input: &str) -> Self::Parsed {
-/// #         input
-/// #             .lines()
-/// #             .map(|s| s.parse().expect("invalid integer"))
-/// #             .collect()
-/// #     }
-/// # }
 /// ```
-pub trait Solution<const Day: u32>:
-    ParseEachInput<Day, Part1> + ParseEachInput<Day, Part2>
-{
-    /// The type output by [`Solution::part1`]
-    /// This must implement [`Display`][::std::fmt::Display] so that we can print it
-    type Part1Output: std::fmt::Display;
-    /// The type output by [`Solution::part2`]
-    /// This must implement [`Display`][::std::fmt::Display] so that we can print it
-    type Part2Output: std::fmt::Display;
+pub trait PartOne<'a, const DAY: u32> {
+    type Input;
+    type Output: Display;
 
-    fn part1(input: &<Self as ParseEachInput<Day, Part1>>::Parsed) -> Self::Part1Output;
-    fn part2(input: &<Self as ParseEachInput<Day, Part2>>::Parsed) -> Self::Part2Output;
+    fn parse_input(&'a self, raw_input: &'a str) -> Self::Input;
+
+    fn solve(&'a self, input: &Self::Input) -> Self::Output;
+
+    fn run(&'a self, raw_input: &'a str) -> Self::Output {
+        let input = <Self as PartOne<DAY>>::parse_input(&self, raw_input);
+        <Self as PartOne<DAY>>::solve(&self, &input)
+    }
+}
+
+/// See the documentation for [`PartOne`], this is equivalent but only for the second part of each day's Advent of Code puzzle.
+pub trait PartTwo<'a, const DAY: u32> {
+    type Input;
+    type Output: Display;
+
+    fn parse_input(&'a self, raw_input: &'a str) -> Self::Input;
+
+    fn solve(&'a self, input: &Self::Input) -> Self::Output;
+
+    fn run(&'a self, raw_input: &'a str) -> Self::Output {
+        let input = <Self as PartTwo<DAY>>::parse_input(&self, raw_input);
+        <Self as PartTwo<DAY>>::solve(&self, &input)
+    }
+}
+
+pub trait Solution<const Day: u32>:
+    ParseEachInput<Day, PartOne> + ParseEachInput<Day, PartTwo>
+{
+    /// The type output by [`Solution::PartOne`]
+    /// This must implement [`Display`][::std::fmt::Display] so that we can print it
+    type PartOneOutput: std::fmt::Display;
+    /// The type output by [`Solution::PartTwo`]
+    /// This must implement [`Display`][::std::fmt::Display] so that we can print it
+    type PartTwoOutput: std::fmt::Display;
+
+    fn PartOne(input: &<Self as ParseEachInput<Day, PartOne>>::Parsed) -> Self::PartOneOutput;
+    fn PartTwo(input: &<Self as ParseEachInput<Day, PartTwo>>::Parsed) -> Self::PartTwoOutput;
 
     /// The default implementation of run will:
     /// * parse your input for each part
-    /// * call `part1` and `part2` with their parsed inputs.
+    /// * call `PartOne` and `PartTwo` with their parsed inputs.
     /// * Print a short summary to display the output
     ///
     /// You can provide your own implementation of this method to change this deafult behaviour.
@@ -209,31 +253,31 @@ pub trait Solution<const Day: u32>:
     /// pub struct AdventOfCode2020;
     ///
     /// impl Solution<Day1> for AdventOfCode2020 {
-    ///     type Part1Output = u32;
-    ///     type Part2Output = u32;
-    ///     fn part1(input: &Vec<u32>) -> u32 {
-    ///         // your solution to part1 here...
+    ///     type PartOneOutput = u32;
+    ///     type PartTwoOutput = u32;
+    ///     fn PartOne(input: &Vec<u32>) -> u32 {
+    ///         // your solution to PartOne here...
     /// #       1
     ///     }
     ///
-    ///     fn part2(input: &Vec<u32>) -> u32 {
-    ///         // your solution to part2 here...
+    ///     fn PartTwo(input: &Vec<u32>) -> u32 {
+    ///         // your solution to PartTwo here...
     /// #       2
     ///     }
     ///
     ///     fn run(input: &str) {
     ///         let shared_parsed_input = <Self as ParseInput<Day1>>::parse_input(input);
     ///
-    ///         let part1_output = Self::part1(&shared_parsed_input);
-    ///         let part2_output = Self::part2(&shared_parsed_input);
+    ///         let PartOne_output = Self::PartOne(&shared_parsed_input);
+    ///         let PartTwo_output = Self::PartTwo(&shared_parsed_input);
     ///
     ///         // maybe you prefer a single line output?
-    ///         println!("Day{}: {} - {}", Day1, part1_output, part2_output);
+    ///         println!("Day{}: {} - {}", Day1, PartOne_output, PartTwo_output);
     ///     }
     ///
     /// }
     /// # impl ParseInput<Day1> for AdventOfCode2020 {
-    /// #     type Parsed = Vec<u32>; // <-- the input to both part1 and part2 for Solution<Day1>
+    /// #     type Parsed = Vec<u32>; // <-- the input to both PartOne and PartTwo for Solution<Day1>
     /// #
     /// #     fn parse_input(input: &str) -> Self::Parsed {
     /// #         input
@@ -244,11 +288,11 @@ pub trait Solution<const Day: u32>:
     /// # }
     /// ```
     fn run(input: &str) {
-        let part1_parsed_input = <Self as ParseEachInput<Day, Part1>>::parse_input(input);
-        let part2_parsed_input = <Self as ParseEachInput<Day, Part2>>::parse_input(input);
+        let PartOne_parsed_input = <Self as ParseEachInput<Day, PartOne>>::parse_input(input);
+        let PartTwo_parsed_input = <Self as ParseEachInput<Day, PartTwo>>::parse_input(input);
 
-        let part1_output = Self::part1(&part1_parsed_input);
-        let part2_output = Self::part2(&part2_parsed_input);
+        let PartOne_output = Self::PartOne(&PartOne_parsed_input);
+        let PartTwo_output = Self::PartTwo(&PartTwo_parsed_input);
 
         // TODO: extract printing behaviour into a report or summary method with a default implementation
         println!(
@@ -256,7 +300,7 @@ pub trait Solution<const Day: u32>:
             {1}\n\n\
             Day {0}, Part 2\n\
             {2}",
-            Day, part1_output, part2_output
+            Day, PartOne_output, PartTwo_output
         );
     }
 }
@@ -271,25 +315,25 @@ pub trait Solution<const Day: u32>:
 ///
 /// ```
 /// # use std::collections::HashMap;
-/// use advent_of_code_traits::{days::Day2, Part1, Part2, ParseEachInput};
+/// use advent_of_code_traits::{days::Day2, PartOne, PartTwo, ParseEachInput};
 /// pub struct AdventOfCode2020;
 ///
-/// impl ParseEachInput<Day2, Part1> for AdventOfCode2020 {
+/// impl ParseEachInput<Day2, PartOne> for AdventOfCode2020 {
 ///     type Parsed = Vec<u32>;
 ///
 ///     fn parse_input(_input: &str) -> Self::Parsed {
-///         // parse your input for _part1_
+///         // parse your input for _PartOne_
 ///         // ...
 ///         // let's just cheat for demonstration purposes
 ///         vec![1]
 ///     }
 /// }
 ///
-/// impl ParseEachInput<Day2, Part2> for AdventOfCode2020 {
+/// impl ParseEachInput<Day2, PartTwo> for AdventOfCode2020 {
 ///     type Parsed = HashMap<String, u32>;
 ///
 ///     fn parse_input(_input: &str) -> Self::Parsed {
-///         // parse your input for _part2_
+///         // parse your input for _PartTwo_
 ///         // ...
 ///         // let's just cheat for demonstration purposes
 ///         let mut hashmap = HashMap::new();
@@ -298,10 +342,10 @@ pub trait Solution<const Day: u32>:
 ///     }
 /// }
 ///
-/// let part1_input = <AdventOfCode2020 as ParseEachInput<Day2, Part1>>::parse_input("input");
-/// let part2_input = <AdventOfCode2020 as ParseEachInput<Day2, Part2>>::parse_input("input");
-/// assert_eq!(vec![1], part1_input);
-/// assert_eq!(Some(&2), part2_input.values().next());
+/// let PartOne_input = <AdventOfCode2020 as ParseEachInput<Day2, PartOne>>::parse_input("input");
+/// let PartTwo_input = <AdventOfCode2020 as ParseEachInput<Day2, PartTwo>>::parse_input("input");
+/// assert_eq!(vec![1], PartOne_input);
+/// assert_eq!(Some(&2), PartTwo_input.values().next());
 /// ```
 pub trait ParseEachInput<const Day: u32, const Part: u32> {
     /// The type that you want your [`Solution`] code to receive for a particular part of a day.
@@ -320,7 +364,7 @@ pub trait ParseEachInput<const Day: u32, const Part: u32> {
 /// ## Example Usage
 ///
 /// ```
-/// use advent_of_code_traits::{days::Day1, Part1, Part2, ParseInput};
+/// use advent_of_code_traits::{days::Day1, PartOne, PartTwo, ParseInput};
 /// pub struct AdventOfCode2020;
 ///
 /// impl ParseInput<Day1> for AdventOfCode2020 {
@@ -334,11 +378,11 @@ pub trait ParseEachInput<const Day: u32, const Part: u32> {
 ///     }
 /// }
 ///
-/// let part1_input = <AdventOfCode2020 as ParseInput<Day1>>::parse_input("input");
-/// let part2_input = <AdventOfCode2020 as ParseInput<Day1>>::parse_input("input");
+/// let PartOne_input = <AdventOfCode2020 as ParseInput<Day1>>::parse_input("input");
+/// let PartTwo_input = <AdventOfCode2020 as ParseInput<Day1>>::parse_input("input");
 ///
 /// // both parts get the same input
-/// assert_eq!(part1_input, part2_input);
+/// assert_eq!(PartOne_input, PartTwo_input);
 /// ```
 pub trait ParseInput<const Day: u32> {
     /// The type that you want your [`Solution`] code to receive
@@ -349,7 +393,7 @@ pub trait ParseInput<const Day: u32> {
     fn parse_input(input: &str) -> Self::Parsed;
 }
 
-impl<T, const Day: u32> ParseEachInput<Day, Part1> for T
+impl<T, const Day: u32> ParseEachInput<Day, PartOne> for T
 where
     T: ParseInput<Day>,
 {
@@ -359,7 +403,7 @@ where
     }
 }
 
-impl<T, const Day: u32> ParseEachInput<Day, Part2> for T
+impl<T, const Day: u32> ParseEachInput<Day, PartTwo> for T
 where
     T: ParseInput<Day>,
 {
@@ -387,14 +431,14 @@ where
 /// }
 ///
 /// impl Solution<Day1> for AdventOfCode2020 {
-///     type Part1Output = usize;
-///     type Part2Output = String;
+///     type PartOneOutput = usize;
+///     type PartTwoOutput = String;
 ///
-///     fn part1(input: &Vec<u32>) -> Self::Part1Output {
+///     fn PartOne(input: &Vec<u32>) -> Self::PartOneOutput {
 ///         input.len()
 ///     }
 ///
-///     fn part2(input: &Vec<u32>) -> Self::Part2Output {
+///     fn PartTwo(input: &Vec<u32>) -> Self::PartTwoOutput {
 ///         String::from("...")
 ///     }
 /// }
