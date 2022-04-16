@@ -14,11 +14,3 @@ categories = ["rust-patterns"]
 maintenance = { status= "actively-developed" }
 
 [dependencies]
-
-[[example]]
-name = "without_parsing"
-crate-type = ["staticlib"]
-
-[[example]]
-name = "parse_each_input"
-crate-type = ["staticlib"]

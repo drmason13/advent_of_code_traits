@@ -1,17 +1,17 @@
 # CLI example
 
-`src/lib.rs` is tiny, it defines a struct to implement Solutions for.
+An example main function to run your solutions from the command line.
 
-`src/main.rs` contains the same code as the [cli example](../cli).
+e.g. to run day 1
+`cargo run --example cli 1`
 
-`day1.rs` contains a Solution to a "nonsense" Day 1 of Advent of Code.
+3 days are implemented. Check each of them for a different demonstration of implementint the Solution trait:
+* `day01.rs` implements Solution with both part1 and part2 implemented and different input types for each
+* `day02.rs` implements Solution with both part1 and part2 implemented using a shared input type
+* `day03.rs` implements Solution only for part1 and marks part2 as unimplemented using the MissingPartTwo trait
 
-Execute this example using `cargo run --example -- 1`.
+`main.rs` loads input from a file and run the Solution with that input for the day provided as an argument.
 
-This passes `1` as the only argument to this cli
-
-This tells it to load input from a file for day1 and run the Day1 Solution with that input.
-
-Try running the example passing the argument `2` or `3`.
+Try running the example passing the argument `2`, `3`, or `4`.
 
 You could extend this example by taking the year as an argument as well as the day.
