@@ -10,12 +10,6 @@ It takes a trait-based approach using const-generics and autoderef specializatio
 
 It's basically an excuse to play with rust's type system.
 
-## Usage
-
-Please see also the [examples](https://github.com/drmason13/advent_of_code_traits/tree/main/examples).
-
-Implement traits with your solutions to each day of Advent of Code.
-
 ## Experimental
 
 This is already serviceable, but there will be ~~frequent~~ breaking changes as the traits are improved and refined.
