@@ -6,10 +6,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
-* A run! macro to easily run a solution ([@hulufei](https://github.com/hulufei))
+* A SolutionRunner trait with a run method
+* Specialized blanket impls of SolutionRunner for types implementing Solution and ParseInput
 
 ### Changed
-* Split run method of Solution into two methods, run and report. By default report prints the output, and run calls report
+* BREAKING: Rewrite the Solution trait
+    * Add PART generic parameter
+    * Swap part1 and part2 methods for a single solve method
+    * Swap Part1Output and Part2Output associated types for a single Output associated type
+    * Add Input associated type
+    * Add &self parameter to solve method
+    * Add lifetime parameter
+    * Remove run method from Solution trait
+* BREAKING: Rewrite and merge the ParseInput and ParseEachInput traits
+    * Add PART generic parameter
+    * Add &self parameter to parse_input method
+    * Add lifetime parameter
+
+
+## [0.1.1] - 2022-04-17
+### Added
+* A run! macro to easily run a solution ([@hulufei](https://github.com/hulufei))
 
 
 ## [0.1.0] - 2021-05-08
