@@ -124,10 +124,10 @@
 //! # let input = "1\n2\n3";
 //! run!(AdventOfCode2021::<Day25>, &input);
 //! ```
-//! This reads input from a file and passes it to your struct to parse and then solve. It will print the output of your solution (which must impl Debug).
+//! This reads input from a file and passes it to your struct to parse and then solve.
+//! It will print the output of your solution (which must impl Debug).
 //!
 //! [`run`] is currently a humble `macro_rules!` declarative macro and is *very* simple.
-//!
 //! It's main purpose is to veil the use of autoderef [`specialization`].
 use std::fmt::Debug;
 

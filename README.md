@@ -1,17 +1,25 @@
 [![Build Status][github-actions-badge]][github-actions] [![Latest Version][crates-io-badge]][crates-io]
 
-# `impl Solution<Day25> for AdventOfCode2021`
+# `impl Solution<'_, Day25, Part2> for AdventOfCode2021<Day25>`
 
 ## What is this?
 
-This is [advent_of_code_traits][github], a minimal, flexible framework for implementing solutions to [Advent of Code] in Rust.
+This is [`advent_of_code_traits`](https://github.com/drmason13/advent_of_code_traits), a set of traits to implement solutions to Advent of Code in Rust.
 
-It takes a trait-based approach using const-generics.
+It takes a trait-based approach using const-generics and autoderef specialization.
+
+It's basically an excuse to play with rust's type system.
+
+## Usage
+
+Please see also the [examples](https://github.com/drmason13/advent_of_code_traits/tree/main/examples).
+
+Implement traits with your solutions to each day of Advent of Code.
 
 ## Experimental
 
-This is already serviceable, but there will be frequent breaking changes as the traits are improved and refined.
-The plan is to release a stable version in time for December 2021.
+This is already serviceable, but there will be ~~frequent~~ breaking changes as the traits are improved and refined.
+The "plan" is to release a stable version ~~in time for December 2021~~ when it's ready.
 
 See the [Changelog](./CHANGELOG.md) for a current view of progress.
 
@@ -21,52 +29,39 @@ Please see also the [examples](./examples/).
 
 Implement traits with your solutions to each Day of Advent of Code.
 
-### Import the traits:
+### Import the machinery:
 
 ```rust
-use advent_of_code_traits::{ParseInput, Solution};
-```
-and optionally, consts:
-```rust
-use advent_of_code_traits::{days::*, Part1, Part2};
+use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, run, Solution, SolutionRunner};
 ```
 
 ### Implement `Solution` for your struct.
 
 ```rust
-pub struct AdventOfCode2020;
+pub struct AdventOfCode2021<const DAY: u32>;
 
-impl Solution<Day1> for AdventOfCode2020 {
-    type Part1Output = u32;
-    type Part2Output = u32;
-
-    fn part1(input: &Vec<u32>) -> u32 {
-        // your solution to part1 here...
-        todo!()
-    }
+impl Solution<'_, Day25, Part1> for AdventOfCode2021<Day25> {
+    type Input = Vec<u32>;
+    type Output = u32;
     
-    fn part2(input: &Vec<u32>) -> u32 {
-        // your solution to part2 here...
-        todo!()
+    fn solve(&self, input: &Self::Input) -> Self::Output {
+        // your solution to Part1 here...
     }
 }
 ```
+That's how we solve the solution given a nicely typed `Vec<u32>`, but Advent of Code gives us plaintext input.
 
-"But where does `Vec<u32>` come from?", you ask.
-
-Well spotted, eagle-eyed reader!
-
-That comes from your implementation of `ParseInput`.
+So first we need to parse the input...
 
 ### Implement `ParseInput` for your struct
 
 ```rust
 // ..continued from above
 
-impl ParseInput<Day1> for AdventOfCode2020 {
-    type Parsed = Vec<u32>; // <-- this will be the input to both part1 and part2 for Solution<Day1>
+impl ParseInput<'_, Day25, Part1> for AdventOfCode2021<Day25> {
+    type Parsed = Vec<u32>; // <-- the input type fed to Solution::solve
 
-    fn parse_input(input: &str) -> Self::Parsed {
+    fn parse_input(&self, input: &'_ str) -> Self::Parsed {
         input
             .lines()
             .map(|s| s.parse().expect("invalid integer"))
@@ -75,24 +70,25 @@ impl ParseInput<Day1> for AdventOfCode2020 {
 }
 ```
 
-Please refer to the examples for more possibilities,
-including parsing a different type for each Part and opting out of parsing entirely to work directly with the `&str`.
-
 ### Run from main.rs
 
-Here comes the ugly part.
+Here comes the part where we actually run our solution!
 ```rust
-let input = std::fs::read_to_string("./input/2020/day1.txt").expect("failed to read input");
-<AdventOfCode2020 as Solution<Day1>>::run(input);
+let input = std::fs::read_to_string("./input/2021/day25.txt").expect("failed to read input");
+run!(AdventOfCode2021::<Day25>, &input);
 ```
-This reads input from a file and passes it to your struct.
-[Fully Qualified Syntax]
-is required in order to disambiguate which day's Solution we are running.
+This reads input from a file and passes it to your struct to parse and then solve.
+It will print the output of your solution (which must impl `Debug`).
+
+[`run`] is currently a humble `macro_rules!` declarative macro and is *very* simple.
+It's main purpose is to veil the use of [autoderef specialization].
+
+Please refer to the [examples](https://github.com/drmason13/advent_of_code_traits/tree/v0.2.0/examples) for more demonstrations.
 
 ## How does this use const generics?
 
-Because the `Solution` and `ParseInput` traits are generic over `const Day: u32` you are free to implement them many times for the same struct.
-The compiler will only yell at you if you implement them for the same Day twice (as it should!).
+Because the `Solution` and `ParseInput` traits are generic over `const DAY: u32` you are free to implement them many times for the same struct.
+The compiler will only yell at you if you implement them for the same DAY twice (as it should!).
 
 `Day1` is used in the examples (because it looks awesome in my humble opinion). It is simply `1_u32`.
 
@@ -106,6 +102,10 @@ mod days {
     pub const Day25: u32 = 25;
 }
 ```
+
+`Solution` and `ParseInput` are also generic over `const PART: u8` which works very similarly to DAY.
+
+## How does this use specialization
 
 ## Prior Art
 
@@ -124,6 +124,9 @@ Thank you Gobanos! :)
 Contributions are welcome, please see [CONTRIBUTING](./CONTRIBUTING.md)
 
 Please also see [ARCHITECTURE](./ARCHITECTURE.md) for a guided tour of sorts of the code base.
+
+I might take a long time to merge/release your contributions, I'm still inexperienced at the whole open source mainenance thing.
+I am grateful for them though.
 
 ### Thank you so much to everyone who has helped this project so far:
 
@@ -154,5 +157,5 @@ dual licensed as above, without any additional terms or conditions.
 [github-actions-badge]: https://github.com/drmason13/advent_of_code_traits/actions/workflows/github-actions.yml/badge.svg
 
 [Advent of Code]: https://adventofcode.com
-[Fully Qualified Syntax]: https://doc.rust-lang.org/book/ch19-03-advanced-traits.html#fully-qualified-syntax-for-disambiguation-calling-methods-with-the-same-name
+[autoderef specialization]: http://lukaskalbertodt.github.io/2019/12/05/generalized-autoref-based-specialization.html
 [cargo-aoc]: https://github.com/gobanos/cargo-aoc
