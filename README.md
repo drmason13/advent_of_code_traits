@@ -114,7 +114,9 @@ mod days {
 
 `Solution` and `ParseInput` are also generic over `const PART: u8` which works very similarly to DAY.
 
-## How does this use specialization
+## How does this use specialization?
+
+See the specialization module's [docs](https://docs.rs/advent_of_code_traits/latest/advent_of_code_traits/specialization/index.html).
 
 ## Prior Art
 
