@@ -161,7 +161,7 @@ pub trait ParseInput<'a, const DAY: u32, const PART: u8> {
 
 /// Import this trait to run your advent of code solutions once they implement [`Solution`].
 ///
-/// This trait is sealed and cannot be implemented outside of this crate.
+/// This trait doesn't need to be implemented outside of this crate.
 ///
 /// Blanket implementations are provided that specialize if your solutions share a parsed input type or if [`MissingPartTwo`] is implemented.
 pub trait SolutionRunner<'a, const DAY: u32, const IMPL: u16> {
