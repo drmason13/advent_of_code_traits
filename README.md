@@ -64,6 +64,21 @@ impl ParseInput<'_, Day25, Part1> for AdventOfCode2021<Day25> {
 }
 ```
 
+### Mark Part2 as missing
+
+To run only Part1 of a day of Advent of Code, you currently need to impl `MissingPartTwo` to help disambiguate the specialization:
+```rust
+impl MissingPartTwo<Day25> for AdventOfCode2021<Day25> {}
+```
+
+If you don't do this (and haven't implemented Solution for Part2) you'll see an error like:
+```
+the method `run` exists for reference `&&&AdventOfCode2021<25_u32>`, but its trait bounds were not satisfied
+the following trait bounds were not satisfied:
+`AdventOfCode2021<25_u32>: MissingPartTwo<25_u32>`
+which is required by `AdventOfCode2021<25_u32>: SolutionRunner<25_u32, 1_u16>`rustcE0599
+```
+
 ### Run from main.rs
 
 Here comes the part where we actually run our solution!
@@ -74,7 +89,7 @@ run!(AdventOfCode2021::<Day25>, &input);
 This reads input from a file and passes it to your struct to parse and then solve.
 It will print the output of your solution (which must impl `Debug`).
 
-[`run`] is currently a humble `macro_rules!` declarative macro and is *very* simple.
+`run!` is currently a humble `macro_rules!` declarative macro and is *very* simple.
 It's main purpose is to veil the use of [autoderef specialization].
 
 Please refer to the [examples](https://github.com/drmason13/advent_of_code_traits/tree/v0.2.0/examples) for more demonstrations.

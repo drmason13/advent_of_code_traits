@@ -25,7 +25,7 @@ git add -A
 git commit -m "Add this awesome new feature"
 ```
 * Submit a Pull request on GitHub
-* Wait patiently for me to respond, this could be a while, please don't be affended.
+* Wait patiently for me to respond, this could be a while, please don't be offended.
 * I'll wait patiently for you to respond to my comments on your pull request, fair is fair :)
 
 ## Thank you for contributing!

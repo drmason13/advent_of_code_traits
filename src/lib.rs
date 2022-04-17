@@ -88,6 +88,21 @@
 //! # assert_eq!(1, ans);
 //! ```
 //!
+//! ### Mark Part2 as missing
+//!
+//! To run only Part1 of a day of Advent of Code, you currently need to impl `MissingPartTwo` to help disambiguate the specialization:
+//! ```no_run
+//! impl MissingPartTwo<Day25> for AdventOfCode2021<Day25> {}
+//! ```
+//!
+//! If you don't do this (and haven't implemented Solution for Part2) you'll see an error like:
+//! ```text
+//! the method `run` exists for reference `&&&AdventOfCode2021<25_u32>`, but its trait bounds were not satisfied
+//! the following trait bounds were not satisfied:
+//! `AdventOfCode2021<25_u32>: MissingPartTwo<25_u32>`
+//! which is required by `AdventOfCode2021<25_u32>: SolutionRunner<25_u32, 1_u16>`rustcE0599
+//! ```
+//!
 //! Please refer to the [examples](https://github.com/drmason13/advent_of_code_traits/tree/main/examples) for more demonstrations.
 //!
 //! ### Run from `main.rs`
