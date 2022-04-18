@@ -92,6 +92,8 @@
 //!
 //! To run only Part1 of a day of Advent of Code, you currently need to impl `MissingPartTwo` to help disambiguate the specialization:
 //! ```no_run
+//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, run, Solution, SolutionRunner};
+//! # pub struct AdventOfCode2021<const DAY: u32>;
 //! impl MissingPartTwo<Day25> for AdventOfCode2021<Day25> {}
 //! ```
 //!
