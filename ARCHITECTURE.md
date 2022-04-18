@@ -10,14 +10,15 @@ Part1 and Part2 are defined in [`lib.rs`](src/lib.rs) as `u8`s which helps to av
 
 This crate also uses ['autoderef specialization'] for ergonomics and performance when running the solution.
 
-Currently this crate is surprisingly simple.
+This crate is gradually getting more complex but is still small.
 
 [`src/lib.rs`](src/lib.rs) contains:
 
 * the traits to be implemented by users:
   * `Solution<Day, Part>` - One implementation per day, per part.
   * `ParseInput<Day, Part>` - One implementation per day, per part.
-* the trait piecing everything together:
+  * `Reporter` - One implementation - day, part info is provided to methods as args. Complete default implementation available.
+* the trait piecing everything together behind the scenes:
   * `SolutionRunner<Day>`
 * the consts:
   * [`days::*`](src/days.rs) - Day1 to Day25
@@ -26,7 +27,7 @@ Currently this crate is surprisingly simple.
 [`src/specialization.rs`](src/specialization.rs) contains:
 
 * the autoderef specialized implementations of `SolutionRunner` for types implementing `Solution` and `ParseInput`
-* the blanket impl of `Solution` for `&T` where `T: Solution`, and the same treatment for `ParseInput`
+* the blanket impl of `Solution` for `&T` where `T: Solution`, and the same treatment for `ParseInput` and `Reporter` - every user facing trait should do this.
 * see the docs for the [specialization] module for more info
 
 ## The `ParseInput` trait
@@ -55,11 +56,17 @@ It has two associated types and one required method:
 
 `Solution` is used by `SolutionRunner`, which orchestrates the user defined traits.
 
+## The `Reporter` trait
+
+The `Reporter` trait is simply for displaying answers to the user by default.
+
+Custom implementations are intended to be able to perform benchmarking and other interesting things with the solutions.
+
 ## The `SolutionRunner` trait
 
 This trait isn't intended to be implemented by end users.
 
-We provide a blanket implementation for types implementing Solution and ParseInput.
+We provide a blanket implementation for types implementing Solution and ParseInput and Reporter.
 
 More than that, we provide multiple implementations which carefully *avoid overlapping*.
 Autoderef specialization is used to prefer the most efficient/complete implementation.
