@@ -1,4 +1,4 @@
-use advent_of_code_traits::{days::*, run, SolutionRunner};
+use advent_of_code_traits::{days::*, run, Reporter, SolutionRunner};
 
 mod day01;
 mod day02;
@@ -6,16 +6,30 @@ mod day03;
 
 struct AdventOfCode2021<const DAY: u32>;
 
+impl<const DAY: u32> Reporter for AdventOfCode2021<DAY> {}
+
+const MAX_DAY: u32 = 3;
+
 fn main() {
-    let day = std::env::args()
+    let arg = std::env::args()
         .skip(1)
         .next()
         .expect(
-            "need a day to know which solution to run, e.g. `cargo run --example cli 1` to run day 1 solutions",
-        )
-        .parse()
-        .expect("unable to parse day, just use a number like `1`");
+            "need a day to know which solution to run, e.g. `cargo run --example cli 1` to run day 1 solutions or `cargo run --example cli all` to run all available solutions",
+        );
 
+    match arg.as_str() {
+        "all" => run_all_days(),
+        x => {
+            let day = x
+                .parse()
+                .expect("unable to parse day, just use a number like `1`");
+            run_day(day);
+        }
+    }
+}
+
+fn run_day(day: u32) {
     let input = std::fs::read_to_string(&find_input(day)).expect("no input available for that day");
 
     match day {
@@ -31,8 +45,14 @@ fn main() {
         // },
 
         // the below fails to compile (until you implement the solution to Day4)
-        // 2 => run!(day4::Problem, &input),
+        // 4 => run!(day4::Problem, &input),
         x => unimplemented!("no solution available for day {x}"),
+    }
+}
+
+fn run_all_days() {
+    for day in 1..=MAX_DAY {
+        run_day(day);
     }
 }
 

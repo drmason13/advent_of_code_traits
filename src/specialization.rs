@@ -33,7 +33,11 @@
 //!
 //! This is great for this crate because the user is importing these traits, a single trait with a generic parameter is easier to import.
 //! It also saves coming up with contrived trait names for each scenario... one of the hard problems in programming sidestepped!
+use crate::Reporter;
+
 use super::{MissingPartTwo, ParseInput, Solution, SolutionRunner};
+
+use std::fmt::Debug;
 
 // Using auto*de*ref specialization to allow more than 2 specificity levels: http://lukaskalbertodt.github.io/2019/12/05/generalized-autoref-based-specialization.html
 // our autoderef specializations are enumerated as a const parameter to the trait (so the user can import a single trait to run their solutions)
@@ -41,7 +45,7 @@ const PART_ONE_ONLY: u16 = 1;
 const FULL: u16 = 2;
 const SHARED_INPUT_FULL: u16 = 3;
 
-// required for users to be able to simply implement Solution for T and get the implementation for &T required for autoderef specialization
+// required for users to be able to simply implement Solution for T and get the implementation for &(&..)T required for autoderef specialization
 impl<'a, T, const DAY: u32, const PART: u8> Solution<'a, DAY, PART> for &T
 where
     T: Solution<'a, DAY, PART>,
@@ -54,7 +58,7 @@ where
     }
 }
 
-// required for users to be able to simply implement ParseInput for T and get the implementation for &T required for autoderef specialization
+// required for users to be able to simply implement ParseInput for T and get the implementation for &(&..)T required for autoderef specialization
 impl<'a, T, const DAY: u32, const PART: u8> ParseInput<'a, DAY, PART> for &T
 where
     T: ParseInput<'a, DAY, PART>,
@@ -66,6 +70,37 @@ where
     }
 }
 
+// required for users to be able to simply implement Reporter for T and get the implementation for &(&..)T required for autoderef specialization
+impl<T> Reporter for &T
+where
+    T: Reporter,
+{
+    fn answer(&self, day: u32, part: u8, answer: impl Debug) {
+        <T as Reporter>::answer(&self, day, part, answer)
+    }
+
+    fn parsing(&self, day: u32, part: u8) {
+        <T as Reporter>::parsing(&self, day, part)
+    }
+    fn parsed(&self, day: u32, part: u8) {
+        <T as Reporter>::parsed(&self, day, part)
+    }
+
+    fn solving(&self, day: u32, part: u8) {
+        <T as Reporter>::solving(&self, day, part)
+    }
+    fn solved(&self, day: u32, part: u8) {
+        <T as Reporter>::solved(&self, day, part)
+    }
+
+    fn start_day(&self, day: u32) {
+        <T as Reporter>::start_day(&self, day)
+    }
+    fn end_day(&self, day: u32) {
+        <T as Reporter>::end_day(&self, day)
+    }
+}
+
 // autoderef specialization
 impl<'a, T: 'a, const DAY: u32> SolutionRunner<'a, DAY, SHARED_INPUT_FULL> for &'a &'a T
 where
@@ -73,13 +108,32 @@ where
         + Solution<'a, DAY, 2>
         + ParseInput<'a, DAY, 1>
         + Solution<'a, DAY, 1, Input = <Self as ParseInput<'a, DAY, 1>>::Parsed>
-        + Solution<'a, DAY, 2, Input = <Self as ParseInput<'a, DAY, 1>>::Parsed>,
+        + Solution<'a, DAY, 2, Input = <Self as ParseInput<'a, DAY, 1>>::Parsed>
+        + Reporter,
 {
     fn run(&'a self, input: &'a str) {
+        <Self as Reporter>::start_day(&self, DAY);
+        <Self as Reporter>::parsing(&self, DAY, 1);
+
         let parsed_input = <Self as ParseInput<'a, DAY, 1>>::parse_input(&self, &input);
+
+        <Self as Reporter>::parsed(&self, DAY, 1);
+        <Self as Reporter>::solving(&self, DAY, 1);
+
         let part1_output = <Self as Solution<'a, DAY, 1>>::solve(&self, &parsed_input);
+
+        <Self as Reporter>::solved(&self, DAY, 1);
+
+        <Self as Reporter>::answer(&self, DAY, 1, part1_output);
+
+        <Self as Reporter>::solving(&self, DAY, 2);
+
         let part2_output = <Self as Solution<'a, DAY, 2>>::solve(&self, &parsed_input);
-        println!("Day {DAY}\npart 1: {part1_output:?}\npart 2: {part2_output:?}");
+
+        <Self as Reporter>::solved(&self, DAY, 2);
+
+        <Self as Reporter>::answer(&self, DAY, 2, part2_output);
+        <Self as Reporter>::end_day(&self, DAY);
     }
 }
 
@@ -91,16 +145,37 @@ where
         + ParseInput<'a, DAY, 1>
         + ParseInput<'a, DAY, 2>
         + Solution<'a, DAY, 1, Input = <Self as ParseInput<'a, DAY, 1>>::Parsed>
-        + Solution<'a, DAY, 2, Input = <Self as ParseInput<'a, DAY, 2>>::Parsed>,
+        + Solution<'a, DAY, 2, Input = <Self as ParseInput<'a, DAY, 2>>::Parsed>
+        + Reporter,
 {
     fn run(&'a self, input: &'a str) {
+        <Self as Reporter>::start_day(&self, DAY);
+        <Self as Reporter>::parsing(&self, DAY, 1);
+
         let parsed_input = <Self as ParseInput<DAY, 1>>::parse_input(&self, input);
+
+        <Self as Reporter>::parsed(&self, DAY, 1);
+        <Self as Reporter>::solving(&self, DAY, 1);
+
         let part1_output = <Self as Solution<'a, DAY, 1>>::solve(&self, &parsed_input);
 
+        <Self as Reporter>::solved(&self, DAY, 1);
+
+        <Self as Reporter>::answer(&self, DAY, 1, part1_output);
+
+        <Self as Reporter>::parsing(&self, DAY, 2);
+
         let parsed_input = <Self as ParseInput<DAY, 2>>::parse_input(&self, input);
+
+        <Self as Reporter>::parsed(&self, DAY, 2);
+        <Self as Reporter>::solving(&self, DAY, 2);
+
         let part2_output = <Self as Solution<'a, DAY, 2>>::solve(&self, &parsed_input);
 
-        println!("Day {DAY}\npart 1: {part1_output:?}\npart 2: {part2_output:?}");
+        <Self as Reporter>::solved(&self, DAY, 2);
+
+        <Self as Reporter>::answer(&self, DAY, 2, part2_output);
+        <Self as Reporter>::end_day(&self, DAY);
     }
 }
 
@@ -110,12 +185,22 @@ where
     T: Solution<'a, DAY, 1>
         + ParseInput<'a, DAY, 1>
         + Solution<'a, DAY, 1, Input = <Self as ParseInput<'a, DAY, 1>>::Parsed>
-        + MissingPartTwo<DAY>,
+        + MissingPartTwo<DAY>
+        + Reporter,
 {
     fn run(&'a self, input: &'a str) {
+        <Self as Reporter>::start_day(&self, DAY);
+        <Self as Reporter>::parsing(&self, DAY, 1);
+
         let parsed_input = <Self as ParseInput<DAY, 1>>::parse_input(&self, input);
+
+        <Self as Reporter>::parsed(&self, DAY, 1);
+        <Self as Reporter>::solving(&self, DAY, 1);
+
         let part1_output = <Self as Solution<'a, DAY, 1>>::solve(&self, &parsed_input);
 
-        println!("Day {DAY}\npart 1: {part1_output:?}");
+        <Self as Reporter>::solved(&self, DAY, 1);
+        <Self as Reporter>::answer(&self, DAY, 1, part1_output);
+        <Self as Reporter>::end_day(&self, DAY);
     }
 }

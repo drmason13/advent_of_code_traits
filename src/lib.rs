@@ -17,13 +17,13 @@
 //! ### Import the machinery:
 //!
 //! ```
-//! use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, run, Solution, SolutionRunner};
+//! use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, Reporter, run, Solution, SolutionRunner};
 //! ```
 //!
 //! ### Implement [`Solution`] for your struct.
 //!
 //! ```
-//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, run, Solution, SolutionRunner};
+//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, Reporter, run, Solution, SolutionRunner};
 //! pub struct AdventOfCode2021<const DAY: u32>;
 //!
 //! impl Solution<'_, Day25, Part1> for AdventOfCode2021<Day25> {
@@ -47,6 +47,7 @@
 //! #     }
 //! # }
 //! # impl MissingPartTwo<Day25> for AdventOfCode2021<Day25> {}
+//! # impl<const DAY: u32> Reporter for AdventOfCode2021<DAY> {}
 //! ```
 //!
 //! That's how we solve the solution given a nicely typed `Vec<u32>`, but Advent of Code gives us plaintext input.
@@ -56,7 +57,7 @@
 //! ### Implement [`ParseInput`] for your struct
 //!
 //! ```
-//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, run, Solution, SolutionRunner};
+//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, Reporter, run, Solution, SolutionRunner};
 //! # pub struct AdventOfCode2021<const DAY: u32>;
 //! #
 //! # impl Solution<'_, Day25, Part1> for AdventOfCode2021<Day25> {
@@ -82,6 +83,7 @@
 //! }
 //! # let input = "1\n2\n3";
 //! # impl MissingPartTwo<Day25> for AdventOfCode2021<Day25> {}
+//! # impl<const DAY: u32> Reporter for AdventOfCode2021<DAY> {}
 //! # let prb = AdventOfCode2021::<Day25>;
 //! # let parsed = &prb.parse_input(&input);
 //! # let ans = prb.solve(&parsed);
@@ -92,6 +94,8 @@
 //!
 //! To run only Part1 of a day of Advent of Code, you currently need to impl `MissingPartTwo` to help disambiguate the specialization:
 //! ```no_run
+//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, Reporter, run, Solution, SolutionRunner};
+//! # pub struct AdventOfCode2021<const DAY: u32>;
 //! impl MissingPartTwo<Day25> for AdventOfCode2021<Day25> {}
 //! ```
 //!
@@ -103,13 +107,22 @@
 //! which is required by `AdventOfCode2021<25_u32>: SolutionRunner<25_u32, 1_u16>`rustcE0599
 //! ```
 //!
+//! ### Implement [`Reporter`] for your struct
+//!
+//! Let's just go with the default implmentation for now.
+//! ```
+//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, Reporter, run, Solution, SolutionRunner};
+//! # pub struct AdventOfCode2021<const DAY: u32>;
+//! impl<const DAY: u32> Reporter for AdventOfCode2021<DAY> {}
+//! ```
+//!
 //! Please refer to the [examples](https://github.com/drmason13/advent_of_code_traits/tree/main/examples) for more demonstrations.
 //!
 //! ### Run from `main.rs`
 //!
 //! Here comes the part where we actually run our solution!
 //! ```
-//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, run, Solution, SolutionRunner};
+//! # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, Reporter, run, Solution, SolutionRunner};
 //! # pub struct AdventOfCode2021<const DAY: u32>;
 //! #
 //! # impl Solution<'_, Day25, Part1> for AdventOfCode2021<Day25> {
@@ -132,6 +145,7 @@
 //! #     }
 //! # }
 //! # impl MissingPartTwo<Day25> for AdventOfCode2021<Day25> {}
+//! # impl<const DAY: u32> Reporter for AdventOfCode2021<DAY> {}
 //! # // for test purposes, circumvent the example code
 //! # if false {
 //! let input = std::fs::read_to_string("./input/2021/day25.txt").expect("failed to read input");
@@ -211,7 +225,7 @@ macro_rules! run {
 ///
 /// Why? It's to guide the specialization by ensuring that each impl is unique. See [`specialization`] for more details.
 /// ```
-/// # use advent_of_code_traits::{days::Day1, MissingPartTwo, ParseInput, Part1, Solution, SolutionRunner };
+/// # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, Reporter, run, Solution, SolutionRunner};
 /// struct AdventOfCode2021<const DAY: u32>;
 ///
 /// impl<'a> Solution<'a, Day1, Part1> for AdventOfCode2021<Day1> {
@@ -223,6 +237,7 @@ macro_rules! run {
 /// #     type Parsed = u32;
 /// #     fn parse_input(&'a self, input: &'a str) -> Self::Parsed { 1 }
 /// # }
+/// # impl<const DAY: u32> Reporter for AdventOfCode2021<DAY> {}
 ///
 /// // add this to be able to .run() AdventOfCode2021::<Day25> without an implemention for Part2
 /// impl MissingPartTwo<Day1> for AdventOfCode2021<Day1> {}
@@ -233,5 +248,40 @@ macro_rules! run {
 /// problem.run(&input);
 /// ```
 pub trait MissingPartTwo<const DAY: u32> {}
+
+/// [`Reporter`] provides methods to display output (or report) to the user what's happening throughout the run.
+///
+/// Each method is an "event" to be called by [`SolutionRunner`] at the appropriate time.
+///
+/// This trait must be implemented by the user, but every method has a default so it is quite easy!
+/// ```
+/// # use advent_of_code_traits::{days::*, MissingPartTwo, Part1, Part2, ParseInput, Reporter, run, Solution, SolutionRunner};
+/// # pub struct AdventOfCode2021<const DAY: u32>;
+/// impl<const DAY: u32> Reporter for AdventOfCode2021<DAY> {}
+/// ```
+///
+/// The default implementation simply prints to stdout, run the cli example to see the format for yourself.
+///
+/// I expect it would be possible to implement benchmarking, writing to a file, and/or anything else you can imagine
+/// in your own implementations of this trait. The signatures take `&self`, so you might want to use interior mutability
+/// or some external mechanism to track state between runs (if you want to). This is left as an exercise for the reader.
+pub trait Reporter {
+    fn answer(&self, _day: u32, part: u8, answer: impl Debug) {
+        println!("part {part}: {answer:?}");
+    }
+
+    fn parsing(&self, _day: u32, _part: u8) {}
+    fn parsed(&self, _day: u32, _part: u8) {}
+
+    fn solving(&self, _day: u32, _part: u8) {}
+    fn solved(&self, _day: u32, _part: u8) {}
+
+    fn start_day(&self, day: u32) {
+        println!("Day {day:02}");
+    }
+    fn end_day(&self, _day: u32) {
+        println!("---");
+    }
+}
 
 pub mod specialization;
